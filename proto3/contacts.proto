@@ -29,6 +29,7 @@ message PeopleInfo{
         string qq = 5;
         string wechat = 6;
     }
+    map<string,string> remark = 7;
 }
 
 message Contacts{

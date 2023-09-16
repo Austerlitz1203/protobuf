@@ -44,7 +44,12 @@ void PrintContacts(contacts::Contacts &cons)
                 break;
         }
 
-
+        if(con.remark_size()){
+            cout<<"备注信息："<<endl;
+            for(auto it = con.remark().begin() ; it!=con.remark().end() ;it++){
+                cout<<"   "<<it->first<<":"<<it->second<<endl;
+            }
+        }
     }
 }
 

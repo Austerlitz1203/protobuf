@@ -83,6 +83,22 @@ void AddPeopleInfo(contacts::PeopleInfo *people_info_ptr)
     }
 
 
+    for(int i=1;;i++)
+    {
+        cout<<"请输入备注"<<i<<"标题（只输入回车完成备注新增）：";
+        string remark_key;
+        getline(cin,remark_key);
+        if(remark_key.empty()){
+            break;
+        }
+        cout<<"请输入备注"<<i<<"内容：";
+        string remark_val;
+        getline(cin,remark_val);
+        people_info_ptr->mutable_remark()->insert({remark_key,remark_val});
+        
+    }
+
+
     cout<<"添加联系人成功！"<<endl;
 
 }
