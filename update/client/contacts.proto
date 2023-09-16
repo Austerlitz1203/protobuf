@@ -1,0 +1,21 @@
+// 首行:语法指定行
+syntax="proto3";
+package contacts;
+
+
+//定义联系人message
+
+message Phone{
+    string phone_number = 1;
+}
+
+
+message PeopleInfo{
+    string name = 1;
+    int32 age = 2;
+    repeated Phone phone = 3;
+}
+
+message Contacts{
+    repeated PeopleInfo contacts = 1;
+}

@@ -1,0 +1,27 @@
+// 首行:语法指定行
+syntax="proto3";
+package contacts;
+
+
+//定义联系人message
+
+message Phone{
+    string phone_number = 1;
+
+}
+
+
+message PeopleInfo{
+    //要“删除”一个字段的正确做法：(保留该字段，新的字段使用后续编号)
+    reserved 2;
+    string name = 1;
+    //int32 age = 2;   // 问题：修改后输⼊的⽣⽇，在client反序列化时，被client设置到了使⽤了相同字段编号的年龄上
+
+    int32 birthday = 4;
+    repeated Phone phone = 3;
+
+}
+
+message Contacts{
+    repeated PeopleInfo contacts = 1;
+}
