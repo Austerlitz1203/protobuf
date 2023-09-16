@@ -21,7 +21,30 @@ void PrintContacts(contacts::Contacts &cons)
             cout<<"联系人电话"<< j+1 <<":"<<pho.phone_number();
             cout<<"  ("<<pho.PhoneType_Name(pho.type())<<")"<<endl;
         }
-        cout<<endl;
+
+        if(con.has_addr() && con.addr().Is<contacts::Address>()){
+            contacts::Address addr;
+            con.addr().UnpackTo(&addr);
+            if(!addr.home_addr().empty()){
+                cout<<"家庭地址："<<addr.home_addr()<<endl;
+            }
+            if(!addr.unit_addr().empty()){
+                cout<<"单位地址："<<addr.unit_addr()<<endl;
+            }
+        }
+
+        switch (con.other_contact_case()){
+            case contacts::PeopleInfo::OtherContactCase::kQq:
+                cout<<"qq号："<<con.qq()<<endl;
+                break;
+            case contacts::PeopleInfo::OtherContactCase::kWechat:
+                cout<<"微信号："<<con.wechat()<<endl;
+                break;
+            case contacts::PeopleInfo::OtherContactCase::OTHER_CONTACT_NOT_SET:
+                break;
+        }
+
+
     }
 }
 

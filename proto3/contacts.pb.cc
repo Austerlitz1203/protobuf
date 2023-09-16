@@ -35,12 +35,29 @@ struct PhoneDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PhoneDefaultTypeInternal _Phone_default_instance_;
+PROTOBUF_CONSTEXPR Address::Address(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.home_addr_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.unit_addr_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct AddressDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR AddressDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~AddressDefaultTypeInternal() {}
+  union {
+    Address _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AddressDefaultTypeInternal _Address_default_instance_;
 PROTOBUF_CONSTEXPR PeopleInfo::PeopleInfo(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.phone_)*/{}
   , /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.addr_)*/nullptr
   , /*decltype(_impl_.age_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+  , /*decltype(_impl_.other_contact_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_._oneof_case_)*/{}} {}
 struct PeopleInfoDefaultTypeInternal {
   PROTOBUF_CONSTEXPR PeopleInfoDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -64,7 +81,7 @@ struct ContactsDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ContactsDefaultTypeInternal _Contacts_default_instance_;
 }  // namespace contacts
-static ::_pb::Metadata file_level_metadata_contacts_2eproto[3];
+static ::_pb::Metadata file_level_metadata_contacts_2eproto[4];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_contacts_2eproto[1];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_contacts_2eproto = nullptr;
 
@@ -78,14 +95,26 @@ const uint32_t TableStruct_contacts_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
   PROTOBUF_FIELD_OFFSET(::contacts::Phone, _impl_.phone_number_),
   PROTOBUF_FIELD_OFFSET(::contacts::Phone, _impl_.type_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::contacts::PeopleInfo, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::contacts::Address, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::contacts::Address, _impl_.home_addr_),
+  PROTOBUF_FIELD_OFFSET(::contacts::Address, _impl_.unit_addr_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::contacts::PeopleInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  PROTOBUF_FIELD_OFFSET(::contacts::PeopleInfo, _impl_._oneof_case_[0]),
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::contacts::PeopleInfo, _impl_.name_),
   PROTOBUF_FIELD_OFFSET(::contacts::PeopleInfo, _impl_.age_),
   PROTOBUF_FIELD_OFFSET(::contacts::PeopleInfo, _impl_.phone_),
+  PROTOBUF_FIELD_OFFSET(::contacts::PeopleInfo, _impl_.addr_),
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::contacts::PeopleInfo, _impl_.other_contact_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::contacts::Contacts, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -96,30 +125,39 @@ const uint32_t TableStruct_contacts_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::contacts::Phone)},
-  { 8, -1, -1, sizeof(::contacts::PeopleInfo)},
-  { 17, -1, -1, sizeof(::contacts::Contacts)},
+  { 8, -1, -1, sizeof(::contacts::Address)},
+  { 16, -1, -1, sizeof(::contacts::PeopleInfo)},
+  { 29, -1, -1, sizeof(::contacts::Contacts)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
   &::contacts::_Phone_default_instance_._instance,
+  &::contacts::_Address_default_instance_._instance,
   &::contacts::_PeopleInfo_default_instance_._instance,
   &::contacts::_Contacts_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_contacts_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\016contacts.proto\022\010contacts\"d\n\005Phone\022\024\n\014p"
-  "hone_number\030\001 \001(\t\022\'\n\004type\030\002 \001(\0162\031.contac"
-  "ts.Phone.PhoneType\"\034\n\tPhoneType\022\006\n\002MP\020\000\022"
-  "\007\n\003TEL\020\001\"G\n\nPeopleInfo\022\014\n\004name\030\001 \001(\t\022\013\n\003"
-  "age\030\002 \001(\005\022\036\n\005phone\030\003 \003(\0132\017.contacts.Phon"
-  "e\"2\n\010Contacts\022&\n\010contacts\030\001 \003(\0132\024.contac"
-  "ts.PeopleInfob\006proto3"
+  "\n\016contacts.proto\022\010contacts\032\031google/proto"
+  "buf/any.proto\"d\n\005Phone\022\024\n\014phone_number\030\001"
+  " \001(\t\022\'\n\004type\030\002 \001(\0162\031.contacts.Phone.Phon"
+  "eType\"\034\n\tPhoneType\022\006\n\002MP\020\000\022\007\n\003TEL\020\001\"/\n\007A"
+  "ddress\022\021\n\thome_addr\030\001 \001(\t\022\021\n\tunit_addr\030\002"
+  " \001(\t\"\234\001\n\nPeopleInfo\022\014\n\004name\030\001 \001(\t\022\013\n\003age"
+  "\030\002 \001(\005\022\036\n\005phone\030\003 \003(\0132\017.contacts.Phone\022\""
+  "\n\004addr\030\004 \001(\0132\024.google.protobuf.Any\022\014\n\002qq"
+  "\030\005 \001(\tH\000\022\020\n\006wechat\030\006 \001(\tH\000B\017\n\rother_cont"
+  "act\"2\n\010Contacts\022&\n\010contacts\030\001 \003(\0132\024.cont"
+  "acts.PeopleInfob\006proto3"
   ;
+static const ::_pbi::DescriptorTable* const descriptor_table_contacts_2eproto_deps[1] = {
+  &::descriptor_table_google_2fprotobuf_2fany_2eproto,
+};
 static ::_pbi::once_flag descriptor_table_contacts_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_contacts_2eproto = {
-    false, false, 261, descriptor_table_protodef_contacts_2eproto,
+    false, false, 423, descriptor_table_protodef_contacts_2eproto,
     "contacts.proto",
-    &descriptor_table_contacts_2eproto_once, nullptr, 0, 3,
+    &descriptor_table_contacts_2eproto_once, descriptor_table_contacts_2eproto_deps, 1, 4,
     schemas, file_default_instances, TableStruct_contacts_2eproto::offsets,
     file_level_metadata_contacts_2eproto, file_level_enum_descriptors_contacts_2eproto,
     file_level_service_descriptors_contacts_2eproto,
@@ -388,10 +426,274 @@ void Phone::InternalSwap(Phone* other) {
 
 // ===================================================================
 
-class PeopleInfo::_Internal {
+class Address::_Internal {
  public:
 };
 
+Address::Address(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:contacts.Address)
+}
+Address::Address(const Address& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  Address* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.home_addr_){}
+    , decltype(_impl_.unit_addr_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.home_addr_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.home_addr_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_home_addr().empty()) {
+    _this->_impl_.home_addr_.Set(from._internal_home_addr(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.unit_addr_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.unit_addr_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_unit_addr().empty()) {
+    _this->_impl_.unit_addr_.Set(from._internal_unit_addr(), 
+      _this->GetArenaForAllocation());
+  }
+  // @@protoc_insertion_point(copy_constructor:contacts.Address)
+}
+
+inline void Address::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.home_addr_){}
+    , decltype(_impl_.unit_addr_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.home_addr_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.home_addr_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.unit_addr_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.unit_addr_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+Address::~Address() {
+  // @@protoc_insertion_point(destructor:contacts.Address)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void Address::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.home_addr_.Destroy();
+  _impl_.unit_addr_.Destroy();
+}
+
+void Address::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void Address::Clear() {
+// @@protoc_insertion_point(message_clear_start:contacts.Address)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.home_addr_.ClearToEmpty();
+  _impl_.unit_addr_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* Address::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string home_addr = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_home_addr();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "contacts.Address.home_addr"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string unit_addr = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_unit_addr();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "contacts.Address.unit_addr"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* Address::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:contacts.Address)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string home_addr = 1;
+  if (!this->_internal_home_addr().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_home_addr().data(), static_cast<int>(this->_internal_home_addr().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "contacts.Address.home_addr");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_home_addr(), target);
+  }
+
+  // string unit_addr = 2;
+  if (!this->_internal_unit_addr().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_unit_addr().data(), static_cast<int>(this->_internal_unit_addr().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "contacts.Address.unit_addr");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_unit_addr(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:contacts.Address)
+  return target;
+}
+
+size_t Address::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:contacts.Address)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string home_addr = 1;
+  if (!this->_internal_home_addr().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_home_addr());
+  }
+
+  // string unit_addr = 2;
+  if (!this->_internal_unit_addr().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_unit_addr());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Address::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    Address::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Address::GetClassData() const { return &_class_data_; }
+
+
+void Address::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<Address*>(&to_msg);
+  auto& from = static_cast<const Address&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:contacts.Address)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_home_addr().empty()) {
+    _this->_internal_set_home_addr(from._internal_home_addr());
+  }
+  if (!from._internal_unit_addr().empty()) {
+    _this->_internal_set_unit_addr(from._internal_unit_addr());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void Address::CopyFrom(const Address& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:contacts.Address)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Address::IsInitialized() const {
+  return true;
+}
+
+void Address::InternalSwap(Address* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.home_addr_, lhs_arena,
+      &other->_impl_.home_addr_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.unit_addr_, lhs_arena,
+      &other->_impl_.unit_addr_, rhs_arena
+  );
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata Address::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_contacts_2eproto_getter, &descriptor_table_contacts_2eproto_once,
+      file_level_metadata_contacts_2eproto[1]);
+}
+
+// ===================================================================
+
+class PeopleInfo::_Internal {
+ public:
+  static const ::PROTOBUF_NAMESPACE_ID::Any& addr(const PeopleInfo* msg);
+};
+
+const ::PROTOBUF_NAMESPACE_ID::Any&
+PeopleInfo::_Internal::addr(const PeopleInfo* msg) {
+  return *msg->_impl_.addr_;
+}
+void PeopleInfo::clear_addr() {
+  if (GetArenaForAllocation() == nullptr && _impl_.addr_ != nullptr) {
+    delete _impl_.addr_;
+  }
+  _impl_.addr_ = nullptr;
+}
 PeopleInfo::PeopleInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -404,8 +706,11 @@ PeopleInfo::PeopleInfo(const PeopleInfo& from)
   new (&_impl_) Impl_{
       decltype(_impl_.phone_){from._impl_.phone_}
     , decltype(_impl_.name_){}
+    , decltype(_impl_.addr_){nullptr}
     , decltype(_impl_.age_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
+    , decltype(_impl_.other_contact_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.name_.InitDefault();
@@ -416,7 +721,24 @@ PeopleInfo::PeopleInfo(const PeopleInfo& from)
     _this->_impl_.name_.Set(from._internal_name(), 
       _this->GetArenaForAllocation());
   }
+  if (from._internal_has_addr()) {
+    _this->_impl_.addr_ = new ::PROTOBUF_NAMESPACE_ID::Any(*from._impl_.addr_);
+  }
   _this->_impl_.age_ = from._impl_.age_;
+  clear_has_other_contact();
+  switch (from.other_contact_case()) {
+    case kQq: {
+      _this->_internal_set_qq(from._internal_qq());
+      break;
+    }
+    case kWechat: {
+      _this->_internal_set_wechat(from._internal_wechat());
+      break;
+    }
+    case OTHER_CONTACT_NOT_SET: {
+      break;
+    }
+  }
   // @@protoc_insertion_point(copy_constructor:contacts.PeopleInfo)
 }
 
@@ -427,13 +749,17 @@ inline void PeopleInfo::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.phone_){arena}
     , decltype(_impl_.name_){}
+    , decltype(_impl_.addr_){nullptr}
     , decltype(_impl_.age_){0}
+    , decltype(_impl_.other_contact_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}
   };
   _impl_.name_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.name_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  clear_has_other_contact();
 }
 
 PeopleInfo::~PeopleInfo() {
@@ -449,11 +775,34 @@ inline void PeopleInfo::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.phone_.~RepeatedPtrField();
   _impl_.name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.addr_;
+  if (has_other_contact()) {
+    clear_other_contact();
+  }
 }
 
 void PeopleInfo::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
+
+void PeopleInfo::clear_other_contact() {
+// @@protoc_insertion_point(one_of_clear_start:contacts.PeopleInfo)
+  switch (other_contact_case()) {
+    case kQq: {
+      _impl_.other_contact_.qq_.Destroy();
+      break;
+    }
+    case kWechat: {
+      _impl_.other_contact_.wechat_.Destroy();
+      break;
+    }
+    case OTHER_CONTACT_NOT_SET: {
+      break;
+    }
+  }
+  _impl_._oneof_case_[0] = OTHER_CONTACT_NOT_SET;
+}
+
 
 void PeopleInfo::Clear() {
 // @@protoc_insertion_point(message_clear_start:contacts.PeopleInfo)
@@ -463,7 +812,12 @@ void PeopleInfo::Clear() {
 
   _impl_.phone_.Clear();
   _impl_.name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.addr_ != nullptr) {
+    delete _impl_.addr_;
+  }
+  _impl_.addr_ = nullptr;
   _impl_.age_ = 0;
+  clear_other_contact();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -501,6 +855,34 @@ const char* PeopleInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.Any addr = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr = ctx->ParseMessage(_internal_mutable_addr(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string qq = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          auto str = _internal_mutable_qq();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "contacts.PeopleInfo.qq"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string wechat = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          auto str = _internal_mutable_wechat();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "contacts.PeopleInfo.wechat"));
         } else
           goto handle_unusual;
         continue;
@@ -557,6 +939,33 @@ uint8_t* PeopleInfo::_InternalSerialize(
         InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
   }
 
+  // .google.protobuf.Any addr = 4;
+  if (this->_internal_has_addr()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(4, _Internal::addr(this),
+        _Internal::addr(this).GetCachedSize(), target, stream);
+  }
+
+  // string qq = 5;
+  if (_internal_has_qq()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_qq().data(), static_cast<int>(this->_internal_qq().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "contacts.PeopleInfo.qq");
+    target = stream->WriteStringMaybeAliased(
+        5, this->_internal_qq(), target);
+  }
+
+  // string wechat = 6;
+  if (_internal_has_wechat()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_wechat().data(), static_cast<int>(this->_internal_wechat().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "contacts.PeopleInfo.wechat");
+    target = stream->WriteStringMaybeAliased(
+        6, this->_internal_wechat(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -587,11 +996,37 @@ size_t PeopleInfo::ByteSizeLong() const {
         this->_internal_name());
   }
 
+  // .google.protobuf.Any addr = 4;
+  if (this->_internal_has_addr()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.addr_);
+  }
+
   // int32 age = 2;
   if (this->_internal_age() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_age());
   }
 
+  switch (other_contact_case()) {
+    // string qq = 5;
+    case kQq: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_qq());
+      break;
+    }
+    // string wechat = 6;
+    case kWechat: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_wechat());
+      break;
+    }
+    case OTHER_CONTACT_NOT_SET: {
+      break;
+    }
+  }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -614,8 +1049,25 @@ void PeopleInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   if (!from._internal_name().empty()) {
     _this->_internal_set_name(from._internal_name());
   }
+  if (from._internal_has_addr()) {
+    _this->_internal_mutable_addr()->::PROTOBUF_NAMESPACE_ID::Any::MergeFrom(
+        from._internal_addr());
+  }
   if (from._internal_age() != 0) {
     _this->_internal_set_age(from._internal_age());
+  }
+  switch (from.other_contact_case()) {
+    case kQq: {
+      _this->_internal_set_qq(from._internal_qq());
+      break;
+    }
+    case kWechat: {
+      _this->_internal_set_wechat(from._internal_wechat());
+      break;
+    }
+    case OTHER_CONTACT_NOT_SET: {
+      break;
+    }
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -641,13 +1093,20 @@ void PeopleInfo::InternalSwap(PeopleInfo* other) {
       &_impl_.name_, lhs_arena,
       &other->_impl_.name_, rhs_arena
   );
-  swap(_impl_.age_, other->_impl_.age_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(PeopleInfo, _impl_.age_)
+      + sizeof(PeopleInfo::_impl_.age_)
+      - PROTOBUF_FIELD_OFFSET(PeopleInfo, _impl_.addr_)>(
+          reinterpret_cast<char*>(&_impl_.addr_),
+          reinterpret_cast<char*>(&other->_impl_.addr_));
+  swap(_impl_.other_contact_, other->_impl_.other_contact_);
+  swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata PeopleInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_contacts_2eproto_getter, &descriptor_table_contacts_2eproto_once,
-      file_level_metadata_contacts_2eproto[1]);
+      file_level_metadata_contacts_2eproto[2]);
 }
 
 // ===================================================================
@@ -832,7 +1291,7 @@ void Contacts::InternalSwap(Contacts* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Contacts::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_contacts_2eproto_getter, &descriptor_table_contacts_2eproto_once,
-      file_level_metadata_contacts_2eproto[2]);
+      file_level_metadata_contacts_2eproto[3]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -841,6 +1300,10 @@ PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::contacts::Phone*
 Arena::CreateMaybeMessage< ::contacts::Phone >(Arena* arena) {
   return Arena::CreateMessageInternal< ::contacts::Phone >(arena);
+}
+template<> PROTOBUF_NOINLINE ::contacts::Address*
+Arena::CreateMaybeMessage< ::contacts::Address >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::contacts::Address >(arena);
 }
 template<> PROTOBUF_NOINLINE ::contacts::PeopleInfo*
 Arena::CreateMaybeMessage< ::contacts::PeopleInfo >(Arena* arena) {

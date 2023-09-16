@@ -49,8 +49,39 @@ void AddPeopleInfo(contacts::PeopleInfo *people_info_ptr)
             cout<<"非法选择，使用默认值（移动电话）"<<endl;
             break;
         }
-
     }
+
+    Address address;
+    cout<<"请输入联系人家庭住址：";
+    string home_addr;
+    getline(cin,home_addr);
+    address.set_home_addr(home_addr);
+    cout<<"请输入联系人单位地址：";
+    string unit_addr;
+    getline(cin,unit_addr);
+    address.set_unit_addr(unit_addr);
+    google::protobuf::Any* addr = people_info_ptr->mutable_addr();
+    addr->PackFrom(address); // packfrom 将任意类型转换为any类型
+
+    cout<<"请选择添加一个联系方式（1、qq号  2、微信号）：";
+    int other_contact;
+    cin>>other_contact;
+    cin.ignore(256,'\n');
+    if(other_contact == 1){
+        cout<<"请输入qq号码：";
+        string qq;
+        getline(cin,qq);
+        people_info_ptr->set_qq(qq);
+    }
+    else if(other_contact == 2){
+        cout<<"请输入微信号码：";
+        string wechat;
+        getline(cin,wechat);
+        people_info_ptr->set_wechat(wechat);
+    }else{
+        cout<<"非法选择，设置其他联系方式失败"<<endl;
+    }
+
 
     cout<<"添加联系人成功！"<<endl;
 
