@@ -6,7 +6,7 @@ using namespace std;
 using namespace contacts;
 
 
-void AddPeopleInfo(PeopleInfo *people_info_ptr)
+void AddPeopleInfo(contacts::PeopleInfo *people_info_ptr)
 {
     cout<<"---------请添加联系人信息---------"<<endl;
     cout<<"请输入联系人姓名：";
@@ -18,17 +18,38 @@ void AddPeopleInfo(PeopleInfo *people_info_ptr)
     int age;
     cin>>age;
     people_info_ptr->set_age(age);
+    cin.ignore(256,'\n');
 
     for(int i=1;;i++){
-        cout<<"请输入联系人电话号码"<<i<<"(输入单行回车表示结束)：";
+        cout<<"请输入联系人电话号码"<<i<<"(输入空行表示结束)：";
         string number;
         getline(cin, number);
 
-        if(number.empty())
+        if (number.empty())
+        {
             break;
+        }
+
+        cout<<"请选择此电话号码类型 （1、移动电话  2、固定电话）：";
+        int type;
+        cin>>type;
+        cin.ignore(256,'\n');
 
         Phone *phone = people_info_ptr->add_phone();
         phone->set_phone_number(number);
+        switch (type)
+        {
+        case 1:
+            phone->set_type(contacts::Phone_PhoneType::Phone_PhoneType_MP);
+            break;
+        case 2:
+            phone->set_type(contacts::Phone_PhoneType::Phone_PhoneType_TEL);
+            break;
+        default:
+            cout<<"非法选择，使用默认值（移动电话）"<<endl;
+            break;
+        }
+
     }
 
     cout<<"添加联系人成功！"<<endl;
@@ -37,7 +58,7 @@ void AddPeopleInfo(PeopleInfo *people_info_ptr)
 
 int main()
 {
-    Contacts contacts;
+    contacts::Contacts contacts;
     // 读取本地已经存在的通讯录文件
     fstream input("contacts.bin",ios::binary | ios::in);
     if(!input){
